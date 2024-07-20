@@ -1,0 +1,21 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.gameboard {
+    display: grid;
+    margin: 10px 50px;
+    grid-template-rows: repeat(3,200px);
+    grid-template-columns: repeat(3,200px);
+}
+
+.game-square {
+    border-style: groove;
+    border-color: black;
+    border-width: 5px;
+    font-size: 200px;
+}
+
+

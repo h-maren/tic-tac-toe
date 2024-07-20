@@ -57,9 +57,16 @@ function playRound(gameboard,currentPlayer){
         position=prompt('Please input where to put marker, 0-8. Pick an empty space!');
     } while(gameboard[position]!='');
     gameboard[position]=currentPlayer.playerMarker;
+    renderGameboard(gameboard);
 };
 
-
+function renderGameboard(gameboard){
+    const gameSquares=document.querySelectorAll('.game-square');
+    console.log(gameSquares);
+    gameboard.forEach((square,index) => {
+        gameSquares[index].textContent=gameboard[index];
+    });
+};
 
 
 function checkForWin(gameboard) {
