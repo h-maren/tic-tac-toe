@@ -23,35 +23,30 @@ const clearButton = (function(){
     return resetbutton;
 })();
 
+
 console.log(startButton);
 console.log(clearButton);
 
 startButton.addEventListener("click",playGame);
 clearButton.addEventListener("click",clearGame);
 
+
+function getPlayerInfo (){
+    const playerOneName=document.getElementById("playerOneName").value;
+    const playerTwoName=document.getElementById("playerTwoName").value;
+    return {playerOneName,playerTwoName}; 
+}
+
+
 function clearGame(){
     for(let i=0;i<9;i++){
         Gameboard[i]=[""];
     };
     renderGameboard(Gameboard);
+    document.getElementById("playerOneName").value="";
+    document.getElementById("playerTwoName").value="";
     return Gameboard;
 };
-/*function selectPosition(gameSquares,Gameboard,currentPlayer){
-    gameSquares.forEach((square)=> {
-        square.addEventListener("click",()=> {
-            positionSelected=square.dataset.index;
-            console.log(positionSelected);
-            if(Gameboard[positionSelected]!=''){
-                alert("Pick an empty position!");
-                selectPosition(gameSquares,Gameboard,currentPlayer);
-            }
-            else {
-                console.log(positionSelected);
-                playRound(Gameboard,currentPlayer,positionSelected);
-            }
-        });
-    });
-};*/
 
 function selectPosition(square,Gameboard){
     positionSelected=square.dataset.index;
@@ -84,8 +79,14 @@ const gameboardObject = (function(marker,place) {
 
 
 function playGame() {
-    const playerOne=createPlayer("Bob","X");
-    const playerTwo=createPlayer("Bill","O");
+    const playerOneName=document.getElementById("playerOneName").value;
+    const playerOne=createPlayer(playerOneName,"X");
+    const playerTwoName=document.getElementById("playerTwoName").value;
+    const playerTwo=createPlayer(playerTwoName,"O");
+    if((playerOneName=='')||(playerTwoName=='')){
+        alert("Put in valid names!");
+        return;
+    }
     console.log(playerOne);
     console.log(playerTwo);
     let currentGameboard=Gameboard;
