@@ -1,10 +1,51 @@
-const Gameboard = (function(){
+let Gameboard = (function(){
     let gameboard=[];
     for(let i=0; i<9; i++){
         gameboard[i]=[""];
     };
     return gameboard;
 })();
+
+const gameSquares = (function(){
+    let gamesquares=document.querySelectorAll('.game-square');
+    return gamesquares;
+})();
+
+let positionSelected;
+
+/*function selectPosition(gameSquares,Gameboard,currentPlayer){
+    gameSquares.forEach((square)=> {
+        square.addEventListener("click",()=> {
+            positionSelected=square.dataset.index;
+            console.log(positionSelected);
+            if(Gameboard[positionSelected]!=''){
+                alert("Pick an empty position!");
+                selectPosition(gameSquares,Gameboard,currentPlayer);
+            }
+            else {
+                console.log(positionSelected);
+                playRound(Gameboard,currentPlayer,positionSelected);
+            }
+        });
+    });
+};*/
+
+function selectPosition(square,Gameboard){
+    positionSelected=square.dataset.index;
+    if(Gameboard[positionSelected]!=''){
+        alert("Pick and empty position!");
+        selectPosition(square,Gameboard);
+    }
+    else {
+        return positionSelected;
+    }
+};
+
+function playRound(gameboard,currentPlayer,currentPosition){
+    gameboard[currentPosition]=currentPlayer.playerMarker;
+    renderGameboard(gameboard);
+    console.log("round played!");
+}
 
 function createPlayer(name,marker) {
     const playerName=name;
@@ -18,6 +59,7 @@ const gameboardObject = (function(marker,place) {
     return {gameMarker,gameboardSpot};
 })();
 
+
 function playGame() {
     const playerOne=createPlayer("Bob","X");
     const playerTwo=createPlayer("Bill","O");
@@ -28,37 +70,56 @@ function playGame() {
     let notCurrentPlayer=playerTwo;
     let isWon=false;
     let isBoardFull=false;
-    do {
-        playRound(currentGameboard,currentPlayer,notCurrentPlayer);
-        isWon=checkForWin(currentGameboard);
-        isBoardFull=checkBoardFull(currentGameboard);
-        console.log(currentGameboard);
-        console.log(isWon);
-        if(isWon==true){
+    console.log(isWon);
+    gameSquares.forEach((square)=> {
+        square.addEventListener("click",()=>{
+            positionSelected=selectPosition(square,Gameboard);
+            console.log(positionSelected);
+            playRound(currentGameboard,currentPlayer,positionSelected);
+            let holdPlayer=currentPlayer;
+            currentPlayer=notCurrentPlayer;
+            notCurrentPlayer=holdPlayer;
+            isWon=checkForWin(currentGameboard);
+            isBoardFull=checkBoardFull(currentGameboard);
+            if(isWon==true){
+                console.log(currentGameboard);
+                console.log(`${currentPlayer.playerName} has won! Marker used: ${currentPlayer.playerMarker}`);
+                return;
+            }
+            if(isBoardFull==true){
+                console.log(`Board is Full!`);
+                return;
+            }
             console.log(currentGameboard);
-            console.log(`${currentPlayer.playerName} has won! Marker used: ${currentPlayer.playerMarker}`);
-            return;
-        }
-        console.log(isBoardFull);
-        if(isBoardFull==true){
-            console.log(`Board is Full!`);
-            return;
-        }
-        let holdPlayer=currentPlayer;
-        currentPlayer=notCurrentPlayer;
-        notCurrentPlayer=holdPlayer;
-        console.log(`new current player is: ${currentPlayer.playerName} and new not current player is ${notCurrentPlayer.playerName}`);  
-    } while ((isWon==false)&&(isBoardFull==false));
+            console.log(isBoardFull);
+            console.log(`new current player is: ${currentPlayer.playerName} and new not current player is ${notCurrentPlayer.playerName}`);  
+         });
+    });
 };
 
-function playRound(gameboard,currentPlayer){
-    let position;
-    do {
-        position=prompt('Please input where to put marker, 0-8. Pick an empty space!');
-    } while(gameboard[position]!='');
-    gameboard[position]=currentPlayer.playerMarker;
-    renderGameboard(gameboard);
-};
+/*
+    if(isWon==true){
+        console.log(currentGameboard);
+        console.log(`${currentPlayer.playerName} has won! Marker used: ${currentPlayer.playerMarker}`);
+        return;
+    }
+    if(isBoardFull==true){
+        console.log(`Board is Full!`);
+        return;
+    }
+    gameSquares.forEach((square)=> {
+        square.addEventListener("click",()=>{
+            positionSelected=selectPosition(square,Gameboard);
+            console.log(positionSelected);
+            playRound(currentGameboard,currentPlayer,positionSelected);
+            let holdPlayer=currentPlayer;
+            currentPlayer=notCurrentPlayer;
+            nonCurrentPlayer=holdPlayer;
+            console.log(`new current player is: ${currentPlayer.playerName} and new not current player is ${notCurrentPlayer.playerName}`);  
+        });
+    });
+    */
+
 
 function renderGameboard(gameboard){
     const gameSquares=document.querySelectorAll('.game-square');
@@ -67,6 +128,8 @@ function renderGameboard(gameboard){
         gameSquares[index].textContent=gameboard[index];
     });
 };
+
+
 
 
 function checkForWin(gameboard) {
