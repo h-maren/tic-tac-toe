@@ -26,12 +26,12 @@ function playRound(event) {
     //console.log(this.target.getAttribute("data-index"));
     displayResults.textContent=`${currentPlayer.playerName}, make your selection by clicking on the board!`;
     let positionSelected=event.target.getAttribute("data-index");
-    console.log(positionSelected);
-    console.log(Gameboard);
+    //console.log(positionSelected);
+    //console.log(Gameboard);
     if(Gameboard[positionSelected]!=''){
         //console.log(currentGameboard[positionSelected]);
         alert("Pick an empty position!");
-        alert(`${Gameboard[positionSelected]}`);
+        //alert(`${Gameboard[positionSelected]}`);
         //selectPosition(square,Gameboard);
     }
     else {
@@ -46,6 +46,7 @@ function playRound(event) {
             return;
         }
         if(isBoardFull==true){
+            deactivateSquares();
             displayResults.textContent=`Board is full!`;    
             return;
         }
@@ -53,6 +54,7 @@ function playRound(event) {
             let holdPlayer=currentPlayer;
             currentPlayer=notCurrentPlayer;
             notCurrentPlayer=holdPlayer;
+            displayResults.textContent=`${currentPlayer.playerName}, make your selection by clicking on the board!`;
         }
     }
 };
@@ -83,7 +85,7 @@ function clearGame(){
     document.getElementById("playerOneName").value="";
     document.getElementById("playerTwoName").value="";
     displayResults.textContent=`Results will go here!`;
-    console.log(Gameboard);
+    //console.log(Gameboard);
     return Gameboard;
 
 };
@@ -100,17 +102,17 @@ let notCurrentPlayer;
 function startGame() {
     activateSquares();
     let playerOneName=document.getElementById("playerOneName").value;
-    console.log(playerOneName);
+    //console.log(playerOneName);
     let playerOne=createPlayer(playerOneName,"X");
     let playerTwoName=document.getElementById("playerTwoName").value;
-    console.log(playerTwoName);
+    //console.log(playerTwoName);
     let playerTwo=createPlayer(playerTwoName,"O");
     if((playerOneName=='')||(playerTwoName=='')){
         alert("Put in valid names!");
         return;
     }
     currentPlayer=playerOne;
-    console.log(currentPlayer);
+    //console.log(currentPlayer);
     notCurrentPlayer=playerTwo;
     isWon=false;
     isBoardFull=false;
@@ -129,38 +131,27 @@ function checkForWin(gameboard) {
     let gameWon=false;
     if((gameboard[0]!='')&&(gameboard[0]==gameboard[1])&&(gameboard[1]==gameboard[2])){
         gameWon=true;
-        console.log("first case");
     }
     if((gameboard[3]!='')&&(gameboard[3]==gameboard[4])&&(gameboard[4]==gameboard[5])){
         gameWon=true;
-        console.log("second case");
     }
     if((gameboard[6]!='')&&(gameboard[6]==gameboard[7])&&(gameboard[7]==gameboard[8])){
         gameWon=true;
-        console.log("third case");
     }
     if((gameboard[0]!='')&&(gameboard[0]==gameboard[3])&&(gameboard[3]==gameboard[6])){
         gameWon=true;
-        console.log("4 case");
     }
     if((gameboard[1]!='')&&(gameboard[1]==gameboard[4])&&(gameboard[4]==gameboard[7])){
         gameWon=true;
-        console.log("5 case");
     }
     if((gameboard[2]!='')&&(gameboard[2]==gameboard[5])&&(gameboard[5]==gameboard[8])){
         gameWon=true;
-        console.log("6 case");
     }
     if((gameboard[0]!='')&&(gameboard[0]==gameboard[4])&&(gameboard[4]==gameboard[8])){
         gameWon=true;
-        console.log("7 case");
     }
     if((gameboard[2]!='')&&(gameboard[2]==gameboard[4])&&(gameboard[4]==gameboard[6])){
         gameWon=true;
-        console.log(gameboard[2]);
-        console.log(gameboard[4]);
-        console.log(gameboard[6]);
-        console.log("8 case");
     }
     return gameWon;
 };

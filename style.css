@@ -1,28 +1,99 @@
+@font-face {
+    font-family: 'eraserregular';
+    src: url('fonts/eraserregular-webfont.woff2') format('woff2'),
+         url('fonts/eraserregular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'scratchregular';
+    src: url('fonts/scratch_-webfont.woff2') format('woff2'),
+         url('fonts/scratch_-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 body {
+    font-family: 'scratchregular',Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     display: flex;
+    color: #22223B;
     flex-direction: column;
     align-items: center;
+    background-color: #C9ADA7;
 }
 
 .header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+}
+
+h1 {
+    font-size: 60px;
+    margin: 10px;
+}
+
+form#playerInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+}
+form.player-container {
+    display: flex;
 }
 
 .gameboard {
     display: grid;
-    margin: 10px 50px;
+    margin: 0px 50px;
     grid-template-rows: repeat(3,200px);
     grid-template-columns: repeat(3,200px);
 }
 
-.game-square {
-    border-style: groove;
-    border-color: black;
-    border-width: 5px;
-    font-size: 200px;
+.button-row {
+    margin-bottom: 15px;
 }
 
+.game-square {
+    font-family: 'eraserregular',Verdana, Geneva, Tahoma, sans-serif;
+    border-style: groove;
+    border-color: #22223B;
+    border-width: 5px;
+    font-size: 200px;
+    background-color: #9A8C98;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+button {
+    border-radius: 5px;
+    font-size: 24px;
+    color: #22223B;
+    background-color: #F2E9E4;
+    font-family: 'scratchregular',Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.display-results {
+    font-size: 24px;
+    margin: 10px;
+}
+input {
+    font-size: 20px;
+}
+
+input,label {
+    font-size: 20px;
+}
+
+input, textarea {
+    background-color: #F2E9E4;
+}
+
+input[type=text] {
+    font-family: 'scratchregular',Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: #22223B;
+}
