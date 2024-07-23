@@ -11,25 +11,21 @@ const gameSquares = (function(){
     return gamesquares;
 })();
 
-//*gameSquares.forEach((square) => {square.addEventListener("click", (event) => getPosition(event))});
-//gameSquares.forEach((square) => {square.addEventListener("click", (event) => getPosition(event))})
-/*gameSquares.forEach((square)=> {
-    square.addEventListener("click", (event) => {
-        console.log(event.target.getAttribute("data-index"));
-        console.log(positionSelected);
-    });
-    console.log(positionSelected);
-});*/
-
-let positionSelected;
 let isWon;
 let isBoardFull;
 
-gameSquares.forEach((square) => {square.addEventListener("click", (event) => playRound(event))});
+function activateSquares(){
+    gameSquares.forEach((square) => {square.addEventListener("click", playRound)});
+}
+
+function deactivateSquares(){
+    gameSquares.forEach((square) => {square.removeEventListener("click", playRound)});
+}
 
 function playRound(event) {
     //console.log(this.target.getAttribute("data-index"));
-    positionSelected=event.target.getAttribute("data-index");
+    displayResults.textContent=`${currentPlayer.playerName}, make your selection by clicking on the board!`;
+    let positionSelected=event.target.getAttribute("data-index");
     console.log(positionSelected);
     console.log(Gameboard);
     if(Gameboard[positionSelected]!=''){
@@ -44,18 +40,20 @@ function playRound(event) {
         isWon=checkForWin(Gameboard);
         isBoardFull=checkBoardFull(Gameboard);
         if(isWon==true){
+            deactivateSquares();
             //console.log(currentGameboard);
             displayResults.textContent=`${currentPlayer.playerName} has won! Marker used: ${currentPlayer.playerMarker}`;
-                return;
+            return;
         }
         if(isBoardFull==true){
-            displayResults.textContent=`Board is full!`;
-                return;
+            displayResults.textContent=`Board is full!`;    
+            return;
         }
-        let holdPlayer=currentPlayer;
-        currentPlayer=notCurrentPlayer;
-        notCurrentPlayer=holdPlayer;
-        displayResults.textContent=`${currentPlayer.playerName}, make your selection by clicking on the board!`;
+        else {
+            let holdPlayer=currentPlayer;
+            currentPlayer=notCurrentPlayer;
+            notCurrentPlayer=holdPlayer;
+        }
     }
 };
 
@@ -90,23 +88,6 @@ function clearGame(){
 
 };
 
-/*function checkPosition(positionSelected,currentGameboard){
-    console.log(currentGameboard);
-    console.log(positionSelected);
-    console.log(currentGameboard[positionSelected]);
-    if(currentGameboard[positionSelected]!=''){
-        //console.log(currentGameboard[positionSelected]);
-        alert("Pick an empty position!");
-        alert(`${currentGameboard[positionSelected]}`);
-        //selectPosition(square,Gameboard);
-    }
-    else {
-        return positionSelected;
-    }
-};*/
-
-
-
 function createPlayer(name,marker) {
     const playerName=name;
     const playerMarker=marker;
@@ -116,8 +97,8 @@ function createPlayer(name,marker) {
 let currentPlayer;
 let notCurrentPlayer;
 
-
 function startGame() {
+    activateSquares();
     let playerOneName=document.getElementById("playerOneName").value;
     console.log(playerOneName);
     let playerOne=createPlayer(playerOneName,"X");
@@ -128,33 +109,12 @@ function startGame() {
         alert("Put in valid names!");
         return;
     }
-    //console.log(playerOne);
-    //console.log(playerTwo);
-    //let currentGameboard=Gameboard;
     currentPlayer=playerOne;
     console.log(currentPlayer);
     notCurrentPlayer=playerTwo;
     isWon=false;
     isBoardFull=false;
-    //console.log(isWon);
     displayResults.textContent=`${currentPlayer.playerName}, make your selection by clicking on the board!`;
-   // console.log(`new current player is: ${currentPlayer.playerName} and new not current player is ${notCurrentPlayer.playerName}`);   
-    /*console.log(positionSelected);
-    console.log(currentPlayer);
-    console.log(notCurrentPlayer);
-    //console.log(currentGameboard[positionSelected]);
-    //playRound(Gameboard,currentPlayer,positionSelected);
-    console.log(Gameboard);
-    console.log("reached here!");
-    */
-
-
-                //console.log(currentPlayer);
-               // console.log(notCurrentPlayer);
-                //displayResults.textContent=`${currentPlayer.playerName}, make your selection by clicking on the board!`;
-                //console.log(currentGameboard);
-                //console.log(isBoardFull);
-    //console.log(`new current player is: ${currentPlayer.playerName} and new not current player is ${notCurrentPlayer.playerName}`);  
 };
 
 function renderGameboard(gameboard){
